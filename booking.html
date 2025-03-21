@@ -300,40 +300,51 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelector("form").addEventListener("submit", function(event) {
-            event.preventDefault();
-            
-            let name = document.getElementById("name").value;
-            let phone = document.getElementById("phone").value;
-            let datetime = document.getElementById("datetime").value;
-            let destination = document.getElementById("destination").value;
-            let mpesa = document.getElementById("mpesa").value;
-            let mpesacode = document.getElementById("mpesacode").value;
-            let message = document.getElementById("message").value;
-            
-            let templateParams = {
-                name: name,
-                phone: phone,
-                date: date,
-                time: time,
-                destination: destination,
-                mpesa: mpesa,
-                mpesacode: mpesacode,
-                message: message
-            };
-    
-            emailjs.send("service_e630xxr", "template_do84s0c", templateParams)
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelector("form").addEventListener("submit", function(event) {
+                event.preventDefault();
+        
+                // Get form values
+                let name = document.getElementById("name").value;
+                let phone = document.getElementById("phone").value;
+                let date = document.getElementById("date").value;
+                let time = document.getElementById("time").value;
+                let destination = document.getElementById("destination").value;
+                let message = document.getElementById("message").value;
+                let mpesa = document.getElementById("mpesa").value;
+                let mpesacode = document.getElementById("mpesacode").value;
+        
+                // Validate required fields
+                if (!name || !phone || !date || !time || !destination || !message || !mpesa || !mpesacode) {
+                    alert("Please fill out all fields before submitting.");
+                    return;
+                }
+        
+                // Prepare email parameters
+                let emailParams = {
+                    name: name,
+                    phone: phone,
+                    date: date,
+                    time: time,
+                    destination: destination,
+                    message: message,
+                    mpesa: mpesa,
+                    mpesacode: mpesacode
+                };
+        
+                // Send email using EmailJS
+                emailjs.send("service_e630xxr", "template_do84s0c", emailParams)
                 .then(function(response) {
-                    alert("Booking submitted successfully!");
-                    document.querySelector("form").reset();
+                    alert("Booking request sent successfully! We will contact you soon.");
+                    document.querySelector("form").reset(); // Clear the form after submission
                 }, function(error) {
-                    alert("Failed to send booking. Please try again.");
+                    alert("Failed to send booking request. Please try again later.");
                     console.error("EmailJS Error:", error);
                 });
+            });
         });
-    });
-</script>
+</script>  
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         document.querySelector("form").addEventListener("submit", function(event) {
