@@ -327,6 +327,29 @@
         });
     });
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelector("form").addEventListener("submit", function(event) {
+            let isValid = true;
+            const fields = ["name", "phone", "datetime", "destination", "message", "mpesa", "mpesacode"];
+            
+            fields.forEach(field => {
+                let input = document.getElementsByName(field)[0];
+                if (input && input.value.trim() === "") {
+                    isValid = false;
+                    input.style.border = "2px solid red";
+                } else {
+                    input.style.border = "";
+                }
+            });
+            
+            if (!isValid) {
+                alert("Please fill in all fields before submitting.");
+                event.preventDefault();
+            }
+        });
+    });
+</script>
 </body>
 
 </html>
