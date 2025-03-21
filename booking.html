@@ -30,6 +30,18 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+    (function(){
+        emailjs.init({
+            publicKey: "OFU2ITPN4cSv2Y6OW",
+        });
+    })();
+    </script>
+
 </head>
 
 <body>
@@ -131,37 +143,37 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control bg-transparent" id="name" placeholder="Your Name">
+                                        <input type="text" class="form-control bg-transparent" name="name" id="name" placeholder="Your Name">
                                         <label for="name">Your Name</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control bg-transparent" id="email" placeholder="Your Email">
+                                        <input type="text" class="form-control bg-transparent" name="phone" id="phone" placeholder="Your Email">
                                         <label for="phone">Your Phone Number</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating date" id="date3" data-target-input="nearest">
-                                        <input type="datetime-local" class="form-control bg-transparent datetimepicker-input" id="datetime" placeholder="Date & Time" data-target="#date3" data-toggle="datetimepicker" />
+                                        <input type="datetime-local" class="form-control bg-transparent datetimepicker-input" name="datetime" id="datetime" placeholder="Date & Time" data-target="#date3" data-toggle="datetimepicker" />
                                         <label for="datetime">Date & Time</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <select class="form-select bg-transparent" id="select1">
+                                        <select class="form-select bg-transparent"  name="destination" id="destination">
                                             <option value="1">Germany</option>
                                             <option value="2">Canada</option>
                                             <option value="3">Dubai</option>
                                             <option value="4">Qatar</option>
                                             <option value="5">Saudi Arabia</option>
                                         </select>
-                                        <label for="select1">Interested Destination</label>
+                                        <label for="destination">Interested Destination</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control bg-transparent" placeholder="Special Request" id="message" style="height: 100px"></textarea>
+                                        <textarea class="form-control bg-transparent" placeholder="Special Request" name="message" id="message" style="height: 100px"></textarea>
                                         <label for="message">Your Message</label>
                                     </div>
                                 </div>
@@ -172,13 +184,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control bg-transparent" id="email" placeholder="Your Email">
+                                        <input type="text" class="form-control bg-transparent" name="mpesa" id="mpesa" placeholder="Your Email">
                                         <label for="mpesa">MPESA Number</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control bg-transparent" id="email" placeholder="Pay Ksh. 50">
+                                        <input type="text" class="form-control bg-transparent" name="mpesacode" id="mpesacode" placeholder="Pay Ksh. 50">
                                         <label for="mpesacode">MPESA Transaction Code</label>
                                     </div>
                                 </div>
@@ -280,7 +292,40 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script type="text/script" src=""></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelector("form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            let name = document.getElementById("name").value;
+            let phone = document.getElementById("phone").value;
+            let datetime = document.getElementById("datetime").value;
+            let destination = document.getElementById("destination").value;
+            let mpesa = document.getElementById("mpesa").value;
+            let mpesacode = document.getElementById("mpesacode").value;
+            let message = document.getElementById("message").value;
+            
+            let templateParams = {
+                name: name,
+                phone: phone,
+                datetime: datetime,
+                destination: destination,
+                mpesa: mpesa,
+                mpesacode: mpesacode,
+                message: message
+            };
+    
+            emailjs.send("service_e630xxr", "template_do84s0c", templateParams)
+                .then(function(response) {
+                    alert("Booking submitted successfully!");
+                    document.querySelector("form").reset();
+                }, function(error) {
+                    alert("Failed to send booking. Please try again.");
+                    console.error("EmailJS Error:", error);
+                });
+        });
+    });
+</script>
 </body>
 
 </html>
